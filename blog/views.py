@@ -1,6 +1,7 @@
 from rest_framework import generics, pagination, response
 from .models import Post, Category, Tag, About
-from .serializers import PostSerializer, SimplePostSerializer, CategorySerializer, TagSerializers, AboutSerializer
+from .serializers import PostSerializer, SimplePostSerializer, CategoryWithPostCountSerializer, \
+    TagWithPostCountSerializer, AboutSerializer
 from django.db.models import Q
 
 from rest_framework_api_key.permissions import HasAPIKey
@@ -10,13 +11,13 @@ from rest_framework.permissions import IsAdminUser
 class CategoryList(generics.ListAPIView):
     permission_classes = [HasAPIKey | IsAdminUser]
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = CategoryWithPostCountSerializer
 
 
 class TagList(generics.ListAPIView):
     permission_classes = [HasAPIKey | IsAdminUser]
     queryset = Tag.objects.all()
-    serializer_class = TagSerializers
+    serializer_class = TagWithPostCountSerializer
 
 
 class StandardResultsSetPagination(pagination.PageNumberPagination):

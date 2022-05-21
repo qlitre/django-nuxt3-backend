@@ -11,10 +11,32 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'slug',)
 
 
+class CategoryWithPostCountSerializer(serializers.ModelSerializer):
+    post_count = serializers.IntegerField(
+        source='post_set.count',
+        read_only=True
+    )
+
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'slug', 'post_count')
+
+
 class TagSerializers(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'name', 'slug',)
+
+
+class TagWithPostCountSerializer(serializers.ModelSerializer):
+    post_count = serializers.IntegerField(
+        source='post_set.count',
+        read_only=True
+    )
+
+    class Meta:
+        model = Tag
+        fields = ('id', 'name', 'slug', 'post_count')
 
 
 class SimplePostSerializer(serializers.ModelSerializer):
